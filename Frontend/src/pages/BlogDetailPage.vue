@@ -74,9 +74,10 @@ const renderedContent = computed(() => {
         </header>
         <!-- markdown 渲染后的正文 -->
         <div
-          class="text-[15px] leading-[1.85]"
+          class="text-[15px] leading-[1.85] prose-images"
           style="color: var(--text-secondary);"
           v-html="renderedContent"
+          @click="e => { if (e.target.tagName === 'IMG') window.__lightbox?.open(e.target.src, e.target.alt) }"
         />
       </article>
 
@@ -115,6 +116,7 @@ const renderedContent = computed(() => {
   border-radius: 0.5rem;
   margin: 1.25rem 0;
   border: 1px solid var(--border-color);
+  cursor: pointer;
 }
 .prose-custom :deep(p) {
   margin-bottom: 1rem;

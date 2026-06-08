@@ -98,8 +98,9 @@ function toggleCountry(country) {
             <img
               :src="img.src"
               :alt="img.alt"
-              class="w-full aspect-[4/4] object-cover transition-transform duration-300 group-hover:scale-110"
+              class="w-full aspect-[4/4] object-cover transition-transform duration-300 group-hover:scale-110 cursor-pointer"
               loading="lazy"
+              @click="window.__lightbox?.open(img.src, img.alt)"
             />
             <div class="absolute bottom-0 left-0 right-0 px-2 py-1 text-[10px] font-medium text-white bg-black/50 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-200">
               {{ img.caption }}
@@ -138,8 +139,9 @@ function toggleCountry(country) {
             <img
               :src="img.src"
               :alt="img.alt"
-              class="w-full aspect-[4/4] object-cover transition-transform duration-300 group-hover:scale-110"
+              class="w-full aspect-[4/4] object-cover transition-transform duration-300 group-hover:scale-110 cursor-pointer"
               loading="lazy"
+              @click="window.__lightbox?.open(img.src, img.alt)"
             />
             <div class="absolute bottom-0 left-0 right-0 px-2 py-1 text-[10px] font-medium text-white bg-black/50 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-200">
               {{ img.caption }}
