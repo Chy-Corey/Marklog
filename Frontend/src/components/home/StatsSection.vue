@@ -17,7 +17,7 @@ onMounted(async () => {
 <template>
   <section class="py-10">
     <h2 class="text-lg font-bold tracking-tight mb-6" style="color: var(--text-primary);">
-      📊 访问统计
+      📊 Traffic
     </h2>
 
     <div class="grid grid-cols-2 gap-4">

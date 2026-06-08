@@ -19,7 +19,7 @@ onMounted(async () => {
 <template>
   <section id="projects" class="py-10">
     <h2 class="text-lg font-bold tracking-tight mb-8" style="color: var(--text-primary);">
-      Projects
+      🚀 Projects
     </h2>
 
     <div class="space-y-3">

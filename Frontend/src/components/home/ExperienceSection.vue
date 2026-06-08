@@ -20,7 +20,7 @@ const experiences = computed(() => site.value?.experiences || []);
 <template>
   <section v-if="experiences.length" class="py-10">
     <h2 class="text-lg font-bold tracking-tight mb-8" style="color: var(--text-primary);">
-      Experience
+      💼 Experience
     </h2>
 
     <div class="space-y-12">

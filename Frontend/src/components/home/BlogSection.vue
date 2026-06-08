@@ -28,7 +28,7 @@ onMounted(async () => {
     <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3 mb-8">
       <div>
         <h2 class="text-lg font-bold tracking-tight mb-2" style="color: var(--text-primary);">
-          Blog
+          ✍️ Blog
         </h2>
         <p class="text-xs leading-[1.8] max-w-xl" style="color: var(--text-secondary);">
           关于 AI 工具、投资、职业成长和工程实践的文章。
