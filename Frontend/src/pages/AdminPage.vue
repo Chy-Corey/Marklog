@@ -235,6 +235,7 @@ async function save() {
       });
     }
     if (result.error) { alert(`保存失败: ${result.error}`); return; }
+    alert('保存成功');
     editing.value = null;
     form.value = {};
     await currentTab().load();
