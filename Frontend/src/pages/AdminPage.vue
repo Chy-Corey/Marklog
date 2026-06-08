@@ -192,6 +192,8 @@ async function editItem(item) {
     editing.value = null;
   } finally {
     loading.value = false;
+    // 滚动到编辑表单位置
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 }
 
