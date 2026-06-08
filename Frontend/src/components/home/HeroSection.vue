@@ -1,13 +1,14 @@
 <script setup>
 // 主页英雄区：问候语、个人介绍、亮点、猫图、旅行照片、社交链接
 // 支持 **粗体** 语法，经 DOMPurify 消毒后渲染
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed, onMounted, nextTick } from 'vue';
 import DOMPurify from 'dompurify';
 import { fetchApi } from '../../composables/useApi.js';
 
 const site = ref(null);
 const showNuomi = ref(false);
 const activeCountry = ref(null);
+const activeCountryImages = ref([]);
 
 onMounted(async () => {
   try {
@@ -26,16 +27,20 @@ function bold(text) {
   return DOMPurify.sanitize(html);
 }
 
-// 切换旅行国家图片的展开状态
+// 切换旅行国家图片：先清空再加载，避免旧图片残留
 function toggleCountry(country) {
-  activeCountry.value = activeCountry.value === country ? null : country;
+  if (activeCountry.value === country) {
+    activeCountry.value = null;
+    activeCountryImages.value = [];
+    return;
+  }
+  activeCountry.value = country;
+  activeCountryImages.value = [];
+  nextTick(() => {
+    const c = hero.value.countries?.find(c => c.name === country);
+    activeCountryImages.value = c?.images || [];
+  });
 }
-
-const activeCountryImages = computed(() => {
-  if (!activeCountry.value || !hero.value.countries) return [];
-  const country = hero.value.countries.find(c => c.name === activeCountry.value);
-  return country?.images || [];
-});
 </script>
 
 <template>
