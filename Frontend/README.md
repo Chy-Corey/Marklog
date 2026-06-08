@@ -1,6 +1,6 @@
 # Frontend
 
-Vue 3 单页应用，LemonParty 的前端部分。
+Vue 3 单页应用，Marklog 的前端部分。
 
 ## 技术栈
 
@@ -44,17 +44,18 @@ src/
 │   │   ├── Sidebar.vue         # 侧边栏：头像、导航、社交图标、主题切换
 │   │   └── ThemeToggle.vue     # 亮/暗主题切换按钮
 │   ├── home/
-│   │   ├── HeroSection.vue     # 主页：个人介绍、爱好、头像
+│   │   ├── HeroSection.vue     # 主页：个人介绍、爱好、头像、旅行照片
 │   │   ├── ExperienceSection.vue  # 主页：工作经历时间线
 │   │   ├── ProjectsSection.vue    # 主页：项目卡片预览
-│   │   └── BlogSection.vue        # 主页：博客文章预览
+│   │   ├── BlogSection.vue        # 主页：博客文章预览
+│   │   └── StatsSection.vue       # 主页：访问统计（周/月）
 │   ├── ui/
 │   │   ├── Card.vue            # 通用卡片组件
 │   │   ├── TagPill.vue         # 标签胶囊
 │   │   ├── PhotoGallery.vue    # 照片网格
 │   │   ├── GalleryImage.vue    # 单张图片（懒加载 + 悬停效果）
 │   │   └── ImageLightbox.vue   # 全屏灯箱（点击放大，ESC 关闭）
-│   └── Footer.vue              # 页脚
+│   └── Footer.vue              # 页脚（备案信息）
 ├── pages/
 │   ├── HomePage.vue            # 主页：组合 Hero、经历、项目、博客模块
 │   ├── BlogPage.vue            # 博客列表：搜索 + 标签过滤
@@ -62,7 +63,7 @@ src/
 │   ├── TagPage.vue             # 标签聚合：按标签筛选文章
 │   ├── ProjectsPage.vue        # 项目列表：卡片式布局
 │   ├── FriendsPage.vue         # 友链页面：头像卡片网格
-│   └── AdminPage.vue           # 管理后台：文章 CRUD、文件上传
+│   └── AdminPage.vue           # 管理后台：文章/项目/友链 CRUD、Home 配置编辑、文件上传
 ├── composables/
 │   ├── useApi.js               # API 请求封装（fetch wrapper）
 │   └── useTheme.js             # 主题切换逻辑（localStorage 持久化）
