@@ -166,4 +166,29 @@ const renderedContent = computed(() => {
 .prose-custom :deep(a:hover) {
   opacity: 0.8;
 }
+.prose-custom :deep(table) {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1rem;
+  font-size: 14px;
+}
+.prose-custom :deep(th),
+.prose-custom :deep(td) {
+  border: 1px solid var(--border-color);
+  padding: 0.5rem 0.75rem;
+  text-align: left;
+}
+.prose-custom :deep(th) {
+  background: var(--bg-secondary);
+  font-weight: 600;
+  color: var(--text-primary);
+}
+.prose-custom :deep(tr:hover) {
+  background: var(--bg-secondary);
+}
+.prose-custom :deep(hr) {
+  border: none;
+  border-top: 1px solid var(--border-color);
+  margin: 2rem 0;
+}
 </style>
