@@ -431,11 +431,11 @@ async function runQuery() {
       </div>
 
       <!-- 工具栏 -->
-      <div class="flex items-center justify-between mb-4 flex-wrap gap-2">
+      <div v-if="tab !== 'home'" class="flex items-center justify-between mb-4 flex-wrap gap-2">
         <span class="text-xs" style="color: var(--text-tertiary);">
           <template v-if="tab === 'posts'">{{ posts.length }} 篇文章</template>
           <template v-else-if="tab === 'projects'">{{ projects.length }} 个项目</template>
-          <template v-else>{{ friends.length }} 个友链</template>
+          <template v-else-if="tab === 'friends'">{{ friends.length }} 个友链</template>
         </span>
         <div v-if="!editing" class="flex gap-2">
           <template v-if="tab === 'posts'">
