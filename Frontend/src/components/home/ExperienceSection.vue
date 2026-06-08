@@ -3,7 +3,6 @@
 // 数据来自 /api/site 的 experiences 字段
 import { ref, computed, onMounted } from 'vue';
 import { fetchApi } from '../../composables/useApi.js';
-import { renderInlineMarkdown } from '../../utils/markdown.js';
 
 const site = ref(null);
 
@@ -62,7 +61,9 @@ const experiences = computed(() => site.value?.experiences || []);
             <h3 class="text-[13px] font-semibold mb-2" style="color: var(--text-primary);">
               {{ role.title }}
             </h3>
-            <p class="text-xs leading-[1.8]" style="color: var(--text-secondary);" v-html="renderInlineMarkdown(role.description)"></p>
+            <p class="text-xs leading-[1.8]" style="color: var(--text-secondary);">
+              {{ role.description }}
+            </p>
           </div>
         </div>
       </div>

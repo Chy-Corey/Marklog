@@ -5,7 +5,6 @@ import { ref, onMounted } from 'vue';
 import BaseLayout from '../layouts/BaseLayout.vue';
 import TagPill from '../components/ui/TagPill.vue';
 import { fetchApi } from '../composables/useApi.js';
-import { renderInlineMarkdown } from '../utils/markdown.js';
 
 const projects = ref([]);
 
@@ -64,7 +63,9 @@ onMounted(async () => {
               </a>
             </div>
           </div>
-          <p class="text-xs leading-[1.8] mb-4" style="color: var(--text-secondary);" v-html="renderInlineMarkdown(project.description)"></p>
+          <p class="text-xs leading-[1.8] mb-4" style="color: var(--text-secondary);">
+            {{ project.description }}
+          </p>
           <div class="flex flex-wrap gap-1.5">
             <TagPill v-for="tag in project.tags" :key="tag" :tag="tag" />
           </div>

@@ -5,7 +5,6 @@ import { ref, watch } from 'vue';
 import { RouterLink, useRoute } from 'vue-router';
 import BaseLayout from '../layouts/BaseLayout.vue';
 import { fetchApi } from '../composables/useApi.js';
-import { renderInlineMarkdown } from '../utils/markdown.js';
 
 const PAGE_SIZE = 5;
 
@@ -95,7 +94,9 @@ watch(() => route.params.tag, (newTag) => {
               >
                 {{ post.title }}
               </h3>
-              <p class="text-xs leading-relaxed line-clamp-2" style="color: var(--text-secondary);" v-html="renderInlineMarkdown(post.description)"></p>
+              <p class="text-xs leading-relaxed line-clamp-2" style="color: var(--text-secondary);">
+                {{ post.description }}
+              </p>
               <!-- 标签行：当前标签高亮，其他标签灰色 -->
               <div v-if="post.tags?.length" class="flex flex-wrap gap-1 mt-2">
                 <span

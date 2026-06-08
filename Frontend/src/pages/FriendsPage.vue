@@ -4,7 +4,6 @@
 import { ref, reactive, onMounted } from 'vue';
 import BaseLayout from '../layouts/BaseLayout.vue';
 import { fetchApi } from '../composables/useApi.js';
-import { renderInlineMarkdown } from '../utils/markdown.js';
 
 const friends = ref([]);
 // 记录头像加载失败的 slug，用于显示首字母占位
@@ -66,7 +65,9 @@ onMounted(async () => {
             >
               {{ friend.name }}
             </h3>
-            <p class="text-[11px] leading-[1.6]" style="color: var(--text-tertiary);" v-html="renderInlineMarkdown(friend.description)"></p>
+            <p class="text-[11px] leading-[1.6]" style="color: var(--text-tertiary);">
+              {{ friend.description }}
+            </p>
           </div>
         </a>
       </div>

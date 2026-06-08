@@ -5,7 +5,6 @@ import { ref, onMounted } from 'vue';
 import { RouterLink } from 'vue-router';
 import BaseLayout from '../layouts/BaseLayout.vue';
 import { fetchApi } from '../composables/useApi.js';
-import { renderInlineMarkdown } from '../utils/markdown.js';
 
 const PAGE_SIZE = 5;
 
@@ -89,7 +88,9 @@ async function loadPosts() {
                 <h3 class="text-sm font-semibold mb-1.5 transition-colors" style="color: var(--text-primary);">
                   {{ post.title }}
                 </h3>
-                <p class="text-xs leading-relaxed line-clamp-2" style="color: var(--text-secondary);" v-html="renderInlineMarkdown(post.description)"></p>
+                <p class="text-xs leading-relaxed line-clamp-2" style="color: var(--text-secondary);">
+                  {{ post.description }}
+                </p>
                 <div v-if="post.tags?.length" class="flex flex-wrap gap-1 mt-2">
                   <RouterLink
                     v-for="tag in post.tags"
