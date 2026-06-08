@@ -10,6 +10,7 @@ const tab = ref('posts'); // 'posts' | 'projects' | 'friends'
 const editing = ref(null);
 const form = ref({});
 const loading = ref(false);
+const mdFullscreen = ref(false);
 const uploading = ref(false);
 const uploadMsg = ref('');
 
@@ -398,7 +399,27 @@ async function runQuery() {
           <input v-model="form.tags" placeholder="标签（逗号分隔）" class="flex-1 px-3 py-2 rounded-lg text-sm" style="background: var(--bg-secondary); color: var(--text-primary); border: 1px solid var(--border-color);" />
           <label class="flex items-center gap-1 text-xs cursor-pointer" style="color: var(--text-secondary);"><input v-model="form.featured" type="checkbox" /> 精选</label>
         </div>
-        <textarea v-model="form.content" placeholder="Markdown 正文" rows="12" class="w-full px-3 py-2 rounded-lg text-sm font-mono" style="background: var(--bg-secondary); color: var(--text-primary); border: 1px solid var(--border-color);" />
+        <div>
+          <div class="flex items-center justify-between mb-1">
+            <span class="text-[11px]" style="color: var(--text-tertiary);">Markdown 正文</span>
+            <button @click="mdFullscreen = !mdFullscreen" class="text-[11px] px-2 py-0.5 rounded cursor-pointer" style="background: var(--bg-secondary); color: var(--text-secondary); border: 1px solid var(--border-color);">
+              {{ mdFullscreen ? '退出全屏' : '全屏编辑' }}
+            </button>
+          </div>
+          <textarea
+            v-model="form.content"
+            placeholder="Markdown 正文"
+            :rows="mdFullscreen ? 40 : 12"
+            class="w-full px-3 py-2 rounded-lg text-sm font-mono"
+            :class="mdFullscreen ? 'fixed inset-x-0 z-50 mx-auto' : ''"
+            :style="{
+              background: 'var(--bg-secondary)',
+              color: 'var(--text-primary)',
+              border: '1px solid var(--border-color)',
+              ...(mdFullscreen ? { top: '60px', bottom: '20px', maxWidth: '1200px', width: '90%', resize: 'none' } : {})
+            }"
+          />
+        </div>
         <div class="flex gap-2">
           <button @click="save" class="px-4 py-1.5 rounded-lg text-xs font-medium cursor-pointer" style="background: var(--color-accent); color: #fff;">保存</button>
           <button @click="cancel" class="px-4 py-1.5 rounded-lg text-xs cursor-pointer" style="background: var(--bg-secondary); color: var(--text-secondary); border: 1px solid var(--border-color);">取消</button>
