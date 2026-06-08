@@ -207,9 +207,11 @@ Vite 开发服务器将 `/api` 和 `/content` 请求代理到后端（端口 300
 
 所有内容以 Markdown 文件（YAML frontmatter + 正文）存储在 `Backend/content/` 下。有两种方式管理内容：
 
-### 方式一：直接编辑文件
+### 方式一：直接编辑文件（仅限本地开发）
 
-增删改 `Backend/content/` 下的 `.md` 文件，重启后端服务即可生效（Docker 部署无需重启）。
+本地开发时，增删改 `Backend/content/` 下的 `.md` 文件，重启后端服务即可生效。
+
+> **Docker 部署注意**：Named Volume 下宿主机修改不会同步到容器，推荐使用管理后台编辑内容。
 
 **博客文章** — `content/posts/xxx.md`
 ```yaml
