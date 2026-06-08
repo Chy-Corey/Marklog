@@ -1,6 +1,16 @@
-# Lemon Party — Personal Blog & Portfolio
+# Marklog — Markdown-Driven Blog
 
-个人博客与作品集站点。**前端** Vue 3 + Vite + Tailwind CSS v4，**后端** Express + Markdown 文件驱动，SQLite 持久化。
+> **写博客，只需要写 Markdown。** 不需要数据库，不需要后台操作，编辑 `md` 文件即可发布内容。
+
+Marklog 是一个 Markdown 驱动的个人博客系统。所有内容以 `md` 文件存储，直接编辑文件就能管理博客、项目和友链，无需接触数据库。
+
+**核心特性**：
+- 📝 **Markdown 即内容** — 编辑 `.md` 文件，保存即生效
+- 🚫 **无需数据库操作** — 内容由文件驱动，SQLite 仅用于索引
+- 🐳 **Docker 一键部署** — `docker compose up -d` 即可运行
+- 🎨 **暗色/亮色主题** — CSS 变量驱动，自动持久化
+- 📱 **响应式布局** — 移动端友好
+- 🔒 **管理后台** — 支持在线编辑和文件上传
 
 ## 相关文档
 
