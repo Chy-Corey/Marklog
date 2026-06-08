@@ -167,6 +167,9 @@ function isActive(path) {
       <p class="text-[10px] mt-1" style="color: var(--text-tertiary); opacity: 0.6;">
         ICP备案/许可证号：鄂ICP备2026026784
       </p>
+      <p class="text-[10px] mt-1" style="color: var(--text-tertiary); opacity: 0.6;">
+        鄂公网安备42011102006298号
+      </p>
     </div>
   </aside>
 </template>
