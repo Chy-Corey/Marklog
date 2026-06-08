@@ -14,6 +14,10 @@ const router = useRouter();
 const post = ref(null);
 const error = ref(false);
 
+function openLightbox(src, alt) {
+  window.__lightbox?.open(src, alt);
+}
+
 onMounted(async () => {
   try {
     post.value = await fetchApi(`/blog/${route.params.slug}`);
@@ -77,7 +81,7 @@ const renderedContent = computed(() => {
           class="text-[15px] leading-[1.85] prose-images"
           style="color: var(--text-secondary);"
           v-html="renderedContent"
-          @click="e => { if (e.target.tagName === 'IMG') window.__lightbox?.open(e.target.src, e.target.alt) }"
+          @click="e => { if (e.target.tagName === 'IMG') openLightbox(e.target.src, e.target.alt) }"
         />
       </article>
 

@@ -27,6 +27,11 @@ function bold(text) {
   return DOMPurify.sanitize(html);
 }
 
+// 打开灯箱
+function openLightbox(src, alt) {
+  window.__lightbox?.open(src, alt);
+}
+
 // 切换旅行国家图片：先清空再加载，避免旧图片残留
 function toggleCountry(country) {
   if (activeCountry.value === country) {
@@ -100,7 +105,7 @@ function toggleCountry(country) {
               :alt="img.alt"
               class="w-full aspect-[4/4] object-cover transition-transform duration-300 group-hover:scale-110 cursor-pointer"
               loading="lazy"
-              @click="window.__lightbox?.open(img.src, img.alt)"
+              @click="openLightbox(img.src, img.alt)"
             />
             <div class="absolute bottom-0 left-0 right-0 px-2 py-1 text-[10px] font-medium text-white bg-black/50 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-200">
               {{ img.caption }}
@@ -141,7 +146,7 @@ function toggleCountry(country) {
               :alt="img.alt"
               class="w-full aspect-[4/4] object-cover transition-transform duration-300 group-hover:scale-110 cursor-pointer"
               loading="lazy"
-              @click="window.__lightbox?.open(img.src, img.alt)"
+              @click="openLightbox(img.src, img.alt)"
             />
             <div class="absolute bottom-0 left-0 right-0 px-2 py-1 text-[10px] font-medium text-white bg-black/50 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-200">
               {{ img.caption }}
