@@ -1,6 +1,6 @@
 <script setup>
 // 管理员界面：管理 Posts、Projects、Friends
-import { ref, onMounted } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import { fetchApi } from '../composables/useApi.js';
 
 const token = ref('');
@@ -38,6 +38,27 @@ const sqlLoading = ref(false);
 const posts = ref([]);
 const projects = ref([]);
 const friends = ref([]);
+
+// 文章搜索和筛选
+const searchQuery = ref('');
+const filterTag = ref('');
+const allTags = ref([]);
+
+const filteredPosts = computed(() => {
+  let result = posts.value;
+  if (searchQuery.value) {
+    const query = searchQuery.value.toLowerCase();
+    result = result.filter(p =>
+      p.title?.toLowerCase().includes(query) ||
+      p.description?.toLowerCase().includes(query) ||
+      p.slug?.toLowerCase().includes(query)
+    );
+  }
+  if (filterTag.value) {
+    result = result.filter(p => p.tags?.includes(filterTag.value));
+  }
+  return result;
+});
 
 function authHeaders() {
   return { Authorization: `Bearer ${token.value}` };
@@ -97,7 +118,15 @@ async function loadAll() {
 }
 
 async function loadPosts() {
-  try { posts.value = await fetchApi('/blog'); } catch (e) { console.error(e); }
+  try {
+    posts.value = await fetchApi('/blog');
+    // 提取所有不重复标签
+    const tagSet = new Set();
+    posts.value.forEach(p => {
+      if (p.tags) p.tags.forEach(t => tagSet.add(t));
+    });
+    allTags.value = [...tagSet].sort();
+  } catch (e) { console.error(e); }
 }
 
 async function loadHome() {
@@ -435,7 +464,7 @@ async function runQuery() {
       <!-- 工具栏 -->
       <div v-if="tab !== 'home'" class="flex items-center justify-between mb-4 flex-wrap gap-2">
         <span class="text-xs" style="color: var(--text-tertiary);">
-          <template v-if="tab === 'posts'">{{ posts.length }} 篇文章</template>
+          <template v-if="tab === 'posts'">{{ filteredPosts.length }} / {{ posts.length }} 篇文章</template>
           <template v-else-if="tab === 'projects'">{{ projects.length }} 个项目</template>
           <template v-else-if="tab === 'friends'">{{ friends.length }} 个友链</template>
         </span>
@@ -456,6 +485,24 @@ async function runQuery() {
             <template v-else>新建友链</template>
           </button>
         </div>
+      </div>
+
+      <!-- 文章搜索和筛选 -->
+      <div v-if="tab === 'posts' && !editing" class="flex gap-2 mb-4">
+        <input
+          v-model="searchQuery"
+          placeholder="搜索标题、摘要、slug..."
+          class="flex-1 px-3 py-1.5 rounded-lg text-xs"
+          style="background: var(--bg-secondary); color: var(--text-primary); border: 1px solid var(--border-color);"
+        />
+        <select
+          v-model="filterTag"
+          class="px-3 py-1.5 rounded-lg text-xs"
+          style="background: var(--bg-secondary); color: var(--text-primary); border: 1px solid var(--border-color);"
+        >
+          <option value="">全部标签</option>
+          <option v-for="tag in allTags" :key="tag" :value="tag">{{ tag }}</option>
+        </select>
       </div>
 
       <!-- 上传反馈 -->
@@ -546,7 +593,7 @@ async function runQuery() {
       <div class="space-y-2">
         <!-- Posts 列表 -->
         <template v-if="tab === 'posts'">
-          <div v-for="item in posts" :key="item.slug" class="card p-3 flex items-center justify-between gap-3">
+          <div v-for="item in filteredPosts" :key="item.slug" class="card p-3 flex items-center justify-between gap-3">
             <div class="flex-1 min-w-0">
               <div class="text-sm font-medium truncate" style="color: var(--text-primary);">
                 {{ item.title }}
