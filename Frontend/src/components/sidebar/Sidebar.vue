@@ -165,10 +165,10 @@ function isActive(path) {
         &copy; Lemon Party 2026
       </p>
       <p class="text-[10px] mt-1" style="color: var(--text-tertiary); opacity: 0.6;">
-        ICP备案/许可证号：鄂ICP备2026026784
+        <a href="https://beian.miit.gov.cn/#/Integrated/index" target="_blank" rel="noopener noreferrer" class="hover:underline">ICP备案/许可证号：鄂ICP备2026026784</a>
       </p>
       <p class="text-[10px] mt-1" style="color: var(--text-tertiary); opacity: 0.6;">
-        鄂公网安备42011102006298号
+        <a href="https://beian.mps.gov.cn/#/query/webSearch" target="_blank" rel="noopener noreferrer" class="hover:underline">鄂公网安备42011102006298号</a>
       </p>
     </div>
   </aside>
