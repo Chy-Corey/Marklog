@@ -5,12 +5,16 @@ import { fetchApi } from '../composables/useApi.js';
 
 const token = ref('');
 const authed = ref(false);
-const tab = ref('posts'); // 'posts' | 'projects' | 'friends'
+const tab = ref('posts'); // 'posts' | 'projects' | 'friends' | 'home'
 
 const editing = ref(null);
 const form = ref({});
 const loading = ref(false);
 const mdFullscreen = ref(false);
+
+// Home 编辑状态
+const homeContent = ref('');
+const homeLoading = ref(false);
 const uploading = ref(false);
 const uploadMsg = ref('');
 
@@ -94,6 +98,31 @@ async function loadAll() {
 
 async function loadPosts() {
   try { posts.value = await fetchApi('/blog'); } catch (e) { console.error(e); }
+}
+
+async function loadHome() {
+  homeLoading.value = true;
+  try {
+    const res = await adminFetch('/api/admin/home');
+    homeContent.value = res.content;
+  } catch (e) {
+    if (e.message !== 'unauthorized') alert('加载 home.md 失败');
+  } finally {
+    homeLoading.value = false;
+  }
+}
+
+async function saveHome() {
+  try {
+    const res = await adminFetch('/api/admin/home', {
+      method: 'PUT',
+      body: JSON.stringify({ content: homeContent.value }),
+    });
+    if (res.error) alert(`保存失败: ${res.error}`);
+    else alert('保存成功');
+  } catch (e) {
+    if (e.message !== 'unauthorized') alert(`保存失败: ${e.message}`);
+  }
 }
 
 async function loadProjects() {
@@ -351,6 +380,53 @@ async function runQuery() {
         >
           友链 ({{ friends.length }})
         </button>
+        <button
+          @click="tab = 'home'; editing = null; form = {}; loadHome();"
+          class="px-4 py-2 text-xs font-medium cursor-pointer transition-colors border-b-2"
+          :style="tab === 'home'
+            ? { color: 'var(--color-accent)', borderColor: 'var(--color-accent)' }
+            : { color: 'var(--text-tertiary)', borderColor: 'transparent' }"
+        >
+          Home
+        </button>
+      </div>
+
+      <!-- Home 编辑 -->
+      <div v-if="tab === 'home'" class="card p-4 space-y-3">
+        <div v-if="homeLoading" class="text-center py-8" style="color: var(--text-tertiary);">加载中...</div>
+        <template v-else>
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-sm font-medium" style="color: var(--text-primary);">home.md</span>
+            <button @click="mdFullscreen = !mdFullscreen" class="text-[11px] px-2 py-0.5 rounded cursor-pointer" style="background: var(--bg-secondary); color: var(--text-secondary); border: 1px solid var(--border-color);">
+              {{ mdFullscreen ? '退出全屏' : '全屏编辑' }}
+            </button>
+          </div>
+          <div v-if="mdFullscreen" class="fixed inset-0 z-50 flex flex-col p-4" style="background: var(--bg-primary);">
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-sm font-medium" style="color: var(--text-primary);">home.md</span>
+              <button @click="mdFullscreen = false" class="text-xs px-3 py-1 rounded cursor-pointer" style="background: var(--bg-secondary); color: var(--text-secondary); border: 1px solid var(--border-color);">退出全屏</button>
+            </div>
+            <textarea
+              v-model="homeContent"
+              class="flex-1 w-full px-3 py-2 rounded-lg text-sm font-mono"
+              style="background: var(--bg-secondary); color: var(--text-primary); border: 1px solid var(--border-color); resize: none;"
+            />
+            <div class="flex gap-2 mt-3">
+              <button @click="saveHome(); mdFullscreen = false;" class="px-4 py-1.5 rounded-lg text-xs font-medium cursor-pointer" style="background: var(--color-accent); color: #fff;">保存</button>
+              <button @click="mdFullscreen = false" class="px-4 py-1.5 rounded-lg text-xs cursor-pointer" style="background: var(--bg-secondary); color: var(--text-secondary); border: 1px solid var(--border-color);">取消</button>
+            </div>
+          </div>
+          <textarea
+            v-else
+            v-model="homeContent"
+            rows="20"
+            class="w-full px-3 py-2 rounded-lg text-sm font-mono"
+            style="background: var(--bg-secondary); color: var(--text-primary); border: 1px solid var(--border-color); resize: vertical;"
+          />
+          <div v-if="!mdFullscreen" class="flex gap-2">
+            <button @click="saveHome" class="px-4 py-1.5 rounded-lg text-xs font-medium cursor-pointer" style="background: var(--color-accent); color: #fff;">保存</button>
+          </div>
+        </template>
       </div>
 
       <!-- 工具栏 -->

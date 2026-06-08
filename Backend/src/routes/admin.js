@@ -3,6 +3,7 @@ import multer from 'multer';
 import { join, extname, dirname } from 'path';
 import { fileURLToPath } from 'url';
 import { randomBytes } from 'crypto';
+import { readFileSync, writeFileSync } from 'fs';
 import matter from 'gray-matter';
 import {
   createPost, updatePost, deletePost, getPostBySlug,
@@ -103,6 +104,24 @@ function guard(req, res, next) {
 
 // 所有管理员路由都经过频率限制
 router.use(rateLimit);
+
+// ========== Home 配置 ==========
+
+const HOME_PATH = join(__dirname, '..', '..', 'content', 'home.md');
+
+// GET /api/admin/home — 读取 home.md 原始内容
+router.get('/home', guard, (req, res) => {
+  const raw = readFileSync(HOME_PATH, 'utf-8');
+  res.json({ content: raw });
+});
+
+// PUT /api/admin/home — 更新 home.md
+router.put('/home', guard, (req, res) => {
+  const { content } = req.body;
+  if (!content) return res.status(400).json({ error: 'content is required' });
+  writeFileSync(HOME_PATH, content, 'utf-8');
+  res.json({ ok: true });
+});
 
 // ========== 文章 CRUD ==========
 
