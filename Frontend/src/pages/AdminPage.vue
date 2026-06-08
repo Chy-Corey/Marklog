@@ -118,8 +118,12 @@ async function saveHome() {
       method: 'PUT',
       body: JSON.stringify({ content: homeContent.value }),
     });
-    if (res.error) alert(`保存失败: ${res.error}`);
-    else alert('保存成功');
+    if (res.error) {
+      alert(`保存失败: ${res.error}`);
+    } else {
+      tab.value = 'posts';
+      homeContent.value = '';
+    }
   } catch (e) {
     if (e.message !== 'unauthorized') alert(`保存失败: ${e.message}`);
   }
