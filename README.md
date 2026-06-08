@@ -80,7 +80,9 @@ ADMIN_TOKEN=your-secret-token docker compose up --build -d
 
 ### 数据持久化
 
-`Backend/content/` 目录通过 Docker volume 挂载，容器重建不会丢失数据。直接编辑宿主机上的 `.md` 文件会实时生效，管理后台上传的内容也保存在此目录。
+`Backend/content/` 目录通过 Docker Named Volume 挂载，容器重建不会丢失数据。**管理后台上传的内容会保存在此目录中。**
+
+> **注意**：Named Volume 下，宿主机的 `Backend/content/` 和容器内是两份独立副本，宿主机修改文件不会同步到容器。如需实时同步，可改为 Bind Mount：`./Backend/content:/app/content`
 
 ### 生产环境
 
@@ -155,7 +157,7 @@ server {
 Docker 会缓存 `npm ci` 层。只要 `package.json` 和 `package-lock.json` 没变，重复构建会跳过依赖安装。首次构建较慢是正常的。
 
 **Q: 修改了内容（.md 文件）需要重新构建吗？**
-不需要。`content` 目录是 volume 挂载的，宿主机修改会实时生效。如果通过管理后台修改，同样会直接写入挂载目录。
+通过管理后台修改会直接生效。宿主机修改文件需要使用 Bind Mount（`./Backend/content:/app/content`）才能实时同步，否则需要重新构建：`docker compose down -v && docker compose up --build -d`
 
 **Q: 端口 80 被占用怎么办？**
 修改 `docker-compose.yml` 中的端口映射，例如改为 `"8080:80"`，然后访问 `http://localhost:8080`。
