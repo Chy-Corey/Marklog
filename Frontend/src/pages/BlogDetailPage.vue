@@ -157,13 +157,13 @@ const renderedContent = computed(() => {
   border: none;
   padding: 0;
 }
-.prose-custom :deep(a) {
+.prose-custom > div:last-child :deep(a) {
   color: var(--color-accent);
   text-decoration: underline;
   text-underline-offset: 2px;
   transition: opacity 0.2s;
 }
-.prose-custom :deep(a:hover) {
+.prose-custom > div:last-child :deep(a:hover) {
   opacity: 0.8;
 }
 .prose-custom :deep(table) {
