@@ -1,0 +1,42 @@
+services:
+  # 前端服务
+  frontend:
+    build:
+      context: ./Frontend
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    networks:
+      - lemonparty-network
+    restart: unless-stopped
+
+  # 后端服务
+  backend:
+    build:
+      context: ./Backend
+      dockerfile: Dockerfile
+    volumes:
+      - content-data:/app/content
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+    networks:
+      - lemonparty-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3000/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+
+# 数据卷（持久化存储）
+volumes:
+  content-data:
+
+# 网络配置
+networks:
+  lemonparty-network:
+    driver: bridge

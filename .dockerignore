@@ -1,0 +1,16 @@
+node_modules
+**/node_modules
+Frontend/dist
+Backend/content/data.db
+Backend/content/data.db-shm
+Backend/content/data.db-wal
+Backend/content/blog.db
+.git
+.gitignore
+*.md
+!Backend/content/**/*.md
+!Backend/static/**
+.dockerignore
+Dockerfile
+docker-compose*.yml
+Frontend/nginx.conf
