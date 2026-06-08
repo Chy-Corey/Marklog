@@ -234,6 +234,12 @@ const ADMIN_TOKEN = process.env.ADMIN_TOKEN || randomBytes(32).toString('hex');
 - 设置了 `ADMIN_TOKEN` 环境变量 → 使用固定值
 - 未设置 → 启动时随机生成 64 位 hex 串，打印到日志
 
+查看自动生成的令牌：
+
+```bash
+docker compose logs backend | grep "管理员令牌"
+```
+
 ### 安全机制
 
 - **Bearer Token**：只从 `Authorization` 请求头读取，不接受 URL 参数

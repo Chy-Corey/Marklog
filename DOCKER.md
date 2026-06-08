@@ -395,8 +395,11 @@ docker compose ps
 
 ### 获取管理后台令牌
 
-```powershell
-# 自动生成的令牌（只在首次启动时打印）
+```bash
+# Linux / macOS / Git Bash
+docker compose logs backend | grep "管理员令牌"
+
+# PowerShell
 docker compose logs backend | Select-String "管理员令牌"
 
 # 输出示例：
