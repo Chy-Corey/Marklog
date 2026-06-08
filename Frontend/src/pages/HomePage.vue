@@ -12,13 +12,13 @@ import StatsSection from '../components/home/StatsSection.vue';
 <template>
   <BaseLayout>
     <HeroSection />
-    <hr class="section-divider my-6" />
+    <hr class="section-divider my-4" />
     <ExperienceSection />
-    <hr class="section-divider my-6" />
+    <hr class="section-divider my-4" />
     <ProjectsSection />
-    <hr class="section-divider my-6" />
+    <hr class="section-divider my-4" />
     <BlogSection />
-    <hr class="section-divider my-6" />
+    <hr class="section-divider my-4" />
     <StatsSection />
   </BaseLayout>
 </template>
