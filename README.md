@@ -211,7 +211,23 @@ Vite 开发服务器将 `/api` 和 `/content` 请求代理到后端（端口 300
 
 本地开发时，增删改 `Backend/content/` 下的 `.md` 文件，重启后端服务即可生效。
 
-> **Docker 部署注意**：Named Volume 下宿主机修改不会同步到容器，推荐使用管理后台编辑内容。
+**Docker 部署为何不能直接编辑？**
+
+Docker 默认使用 Named Volume 挂载 `content` 目录，宿主机的 `Backend/content/` 和容器内的 `/app/content/` 是两份独立副本，互不同步。
+
+**解决方案**：将 `docker-compose.yml` 中的 Named Volume 改为 Bind Mount，即可在宿主机直接编辑文件：
+
+```yaml
+# 修改前（Named Volume，数据隔离）
+volumes:
+  - content-data:/app/content
+
+# 修改后（Bind Mount，实时同步）
+volumes:
+  - ./Backend/content:/app/content
+```
+
+修改后删除旧容器重建：`docker compose down -v && docker compose up -d`
 
 **博客文章** — `content/posts/xxx.md`
 ```yaml
