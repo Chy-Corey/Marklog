@@ -39,6 +39,19 @@ const posts = ref([]);
 const projects = ref([]);
 const friends = ref([]);
 
+// 复制到剪贴板（兼容 HTTP 环境）
+function copyToClipboard(text) {
+  const textarea = document.createElement('textarea');
+  textarea.value = text;
+  textarea.style.position = 'fixed';
+  textarea.style.opacity = '0';
+  document.body.appendChild(textarea);
+  textarea.select();
+  document.execCommand('copy');
+  document.body.removeChild(textarea);
+  imgMsg.value = '已复制!';
+}
+
 // 文章搜索和筛选
 const searchQuery = ref('');
 const filterTag = ref('');
@@ -509,7 +522,7 @@ async function runQuery() {
       <div v-if="uploadMsg" class="text-xs mb-3" :style="{ color: uploadMsg.startsWith('错误') ? '#e74c3c' : 'var(--color-accent)' }">{{ uploadMsg }}</div>
       <div v-if="imgUrl" class="flex items-center gap-2 mb-3 text-xs">
         <code class="px-2 py-1 rounded select-all" style="background: var(--bg-secondary); color: var(--text-secondary); border: 1px solid var(--border-color);">{{ imgUrl }}</code>
-        <button @click="navigator.clipboard.writeText(imgUrl).then(() => imgMsg = '已复制!')" class="px-2 py-1 rounded text-[10px] cursor-pointer" style="background: var(--bg-secondary); color: var(--text-secondary); border: 1px solid var(--border-color);">复制</button>
+        <button @click="copyToClipboard(imgUrl)" class="px-2 py-1 rounded text-[10px] cursor-pointer" style="background: var(--bg-secondary); color: var(--text-secondary); border: 1px solid var(--border-color);">复制</button>
         <img :src="imgUrl" class="h-10 rounded" style="border: 1px solid var(--border-color);" />
       </div>
 
