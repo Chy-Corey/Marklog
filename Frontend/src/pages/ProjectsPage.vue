@@ -24,7 +24,7 @@ onMounted(async () => {
         Projects
       </h1>
       <p class="text-xs leading-[1.8] mb-8" style="color: var(--text-secondary);">
-        我构建和发布的项目。
+        Projects I've built and launched.
       </p>
 
       <div class="space-y-3">

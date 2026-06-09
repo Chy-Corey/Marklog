@@ -29,7 +29,7 @@ onMounted(async () => {
         Friends
       </h1>
       <p class="text-xs leading-[1.8] mb-8" style="color: var(--text-secondary);">
-        一些有趣的朋友和他们的网站。
+        Some interesting friends and their websites.
       </p>
 
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">

@@ -55,7 +55,7 @@ async function loadPosts() {
         Blog
       </h1>
       <p class="text-xs leading-[1.8] mb-6" style="color: var(--text-secondary);">
-        Thinking about AI、Coding and Investing.
+        Thinking about AI, investment, career growth, and engineering practices.
       </p>
 
       <!-- 标签过滤器：点击跳转到 TagPage -->

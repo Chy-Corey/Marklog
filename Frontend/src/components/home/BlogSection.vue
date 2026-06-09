@@ -31,11 +31,11 @@ onMounted(async () => {
           ✍️ Blog
         </h2>
         <p class="text-xs leading-[1.8] max-w-xl" style="color: var(--text-secondary);">
-          关于 AI 工具、投资、职业成长和工程实践的文章。
+          Thinking about AI, investment, career growth, and engineering practices.
         </p>
       </div>
       <RouterLink to="/blog" class="tag-pill hover:text-[var(--color-accent)] w-fit">
-        全部文章
+        All Articles
       </RouterLink>
     </div>
 
