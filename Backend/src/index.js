@@ -46,6 +46,7 @@ app.use('/api/stats', statsRoutes);
 
 // 确保 content 子目录存在（图片上传需要）
 mkdirSync(join(__dirname, '..', 'content', 'posts', 'images'), { recursive: true });
+mkdirSync(join(__dirname, '..', 'content', 'images'), { recursive: true });
 
 // 服务启动时扫描 .md 文件同步到数据库，并启动文件监听
 syncAllPosts();

@@ -3,7 +3,7 @@ import multer from 'multer';
 import { join, extname, dirname } from 'path';
 import { fileURLToPath } from 'url';
 import { randomBytes } from 'crypto';
-import { readFileSync, writeFileSync } from 'fs';
+import { readFileSync, writeFileSync, mkdirSync } from 'fs';
 import matter from 'gray-matter';
 import {
   createPost, updatePost, deletePost, getPostBySlug,
@@ -13,7 +13,16 @@ import {
 import db from '../content/db.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-const IMAGES_DIR = join(__dirname, '..', '..', 'content', 'posts', 'images');
+const CONTENT_DIR = join(__dirname, '..', '..', 'content');
+const ALLOWED_IMAGE_DIRS = ['posts/images', 'images'];
+
+// 根据请求中的 folder 字段解析目标目录，默认 posts/images
+function resolveImageDir(folder) {
+  const subdir = folder && ALLOWED_IMAGE_DIRS.includes(folder) ? folder : 'posts/images';
+  const dir = join(CONTENT_DIR, subdir);
+  mkdirSync(dir, { recursive: true });
+  return { dir, subdir };
+}
 
 // 管理员令牌：优先用环境变量，否则启动时随机生成一个 64 位 hex 串
 const ADMIN_TOKEN = process.env.ADMIN_TOKEN || randomBytes(32).toString('hex');
@@ -59,10 +68,15 @@ function rateLimit(req, res, next) {
 
 // ========== 文件上传配置 ==========
 
-// 图片上传：存到 content/posts/images/，文件名净化防路径遍历
+// 图片上传：支持 folder 参数选择目标目录（posts/images 或 images），文件名净化防路径遍历
 const imageUpload = multer({
   storage: multer.diskStorage({
-    destination: IMAGES_DIR,
+    destination: (req, file, cb) => {
+      try {
+        const { dir } = resolveImageDir(req.body?.folder);
+        cb(null, dir);
+      } catch (err) { cb(err); }
+    },
     filename: (req, file, cb) => {
       const base = file.originalname.replace(/\.[^.]+$/, '').replace(/[^a-zA-Z0-9._-]/g, '_');
       const ext = extname(file.originalname).toLowerCase();
@@ -282,10 +296,11 @@ router.post('/query', guard, (req, res) => {
 
 // ========== 图片上传 ==========
 
-// POST /api/admin/image — 上传图片到 content/posts/images/
+// POST /api/admin/image — 上传图片，支持 folder 字段选择目标目录
 router.post('/image', guard, imageUpload.single('image'), (req, res) => {
   if (!req.file) return res.status(400).json({ error: 'no file uploaded' });
-  res.json({ ok: true, url: `/content/posts/images/${req.file.filename}`, filename: req.file.filename });
+  const { subdir } = resolveImageDir(req.body?.folder);
+  res.json({ ok: true, url: `/content/${subdir}/${req.file.filename}`, filename: req.file.filename });
 });
 
 // ========== multer 错误处理 ==========

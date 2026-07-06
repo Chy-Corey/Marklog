@@ -22,6 +22,7 @@ const uploadMsg = ref('');
 const imgUploading = ref(false);
 const imgUrl = ref('');
 const imgMsg = ref('');
+const imgFolder = ref('posts/images');
 
 // SQL 查询状态
 const sqlDefaults = {
@@ -342,6 +343,7 @@ async function handleImageUpload(e) {
   imgMsg.value = '';
   try {
     const formData = new FormData();
+    formData.append('folder', imgFolder.value);
     formData.append('image', file);
     const result = await adminUpload('/api/admin/image', formData);
     if (result.error) {
@@ -487,6 +489,10 @@ async function runQuery() {
               {{ uploading ? '上传中...' : '上传 md' }}
               <input type="file" accept=".md" class="hidden" @change="handleMdUpload" :disabled="uploading" />
             </label>
+            <select v-model="imgFolder" class="px-2 py-1.5 rounded-lg text-xs" style="background: var(--bg-secondary); color: var(--text-primary); border: 1px solid var(--border-color);">
+              <option value="posts/images">文章配图</option>
+              <option value="images">首页图片</option>
+            </select>
             <label class="px-3 py-1.5 rounded-lg text-xs font-medium cursor-pointer" :style="{ background: imgUploading ? 'var(--bg-secondary)' : 'var(--color-accent)', color: imgUploading ? 'var(--text-tertiary)' : '#fff' }">
               {{ imgUploading ? '上传中...' : '上传图片' }}
               <input type="file" accept="image/*" class="hidden" @change="handleImageUpload" :disabled="imgUploading" />
