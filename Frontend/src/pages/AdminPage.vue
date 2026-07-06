@@ -325,7 +325,7 @@ async function handleMdUpload(e) {
       await loadPosts();
     }
   } catch (err) {
-    if (err.message !== 'unauthorized') uploadMsg.value = `上传失败: ${err.message}`;
+    uploadMsg.value = `上传失败: ${err.message}`;
   } finally {
     uploading.value = false;
   }
@@ -351,7 +351,7 @@ async function handleImageUpload(e) {
       imgMsg.value = '上传成功!';
     }
   } catch (err) {
-    if (err.message !== 'unauthorized') imgMsg.value = `上传失败: ${err.message}`;
+    imgMsg.value = `上传失败: ${err.message}`;
   } finally {
     imgUploading.value = false;
   }
@@ -371,7 +371,7 @@ async function runQuery() {
     });
     if (result.error) { sqlError.value = result.error; } else { sqlResult.value = result; }
   } catch (err) {
-    if (err.message !== 'unauthorized') sqlError.value = err.message;
+    sqlError.value = err.message;
   } finally {
     sqlLoading.value = false;
   }
@@ -520,6 +520,7 @@ async function runQuery() {
 
       <!-- 上传反馈 -->
       <div v-if="uploadMsg" class="text-xs mb-3" :style="{ color: uploadMsg.startsWith('错误') ? '#e74c3c' : 'var(--color-accent)' }">{{ uploadMsg }}</div>
+      <div v-if="imgMsg" class="text-xs mb-3" :style="{ color: imgMsg.startsWith('错误') || imgMsg.startsWith('上传失败') ? '#e74c3c' : 'var(--color-accent)' }">{{ imgMsg }}</div>
       <div v-if="imgUrl" class="flex items-center gap-2 mb-3 text-xs">
         <code class="px-2 py-1 rounded select-all" style="background: var(--bg-secondary); color: var(--text-secondary); border: 1px solid var(--border-color);">{{ imgUrl }}</code>
         <button @click="copyToClipboard(imgUrl)" class="px-2 py-1 rounded text-[10px] cursor-pointer" style="background: var(--bg-secondary); color: var(--text-secondary); border: 1px solid var(--border-color);">复制</button>
